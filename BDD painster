@@ -1,0 +1,150 @@
+/* ============================================================ */
+/*   Table : PAYS						*/
+/* ============================================================ */
+create table PAYS
+(
+	idPays 		int		not null,
+	nomPays		varchar2(100)	not null,
+	constraint PK_PAYS primary key (idPays)
+)
+
+/* ============================================================ */
+/*   Table : ARTISTE						*/
+/* ============================================================ */
+create table ARTISTE
+(
+	idArtiste			int		not null,
+	nomArtiste			varchar2(50)	not null,
+	prenomArtiste 			varchar2(50) 	not null,
+	dateNaissArtiste		Date		null,
+	dateDecesArtiste		Date		null,
+	dateDebutCarriereArtiste	Date		null,
+	courantArtiste			varchar2(50)	null,
+	constraint PK_ARTISTE primary key (idArtiste)
+)
+
+	
+/* ============================================================ */
+/*   Table : TYPE_TAG						*/
+/* ============================================================ */
+create table TYPE_TAG
+(	
+	idTypeTag		int		not null,
+	libelleTypeTag		varchar2(50)	not null,
+	constraint PK_TYPE_TAG primary key (idTypeTag)
+)
+
+/* ============================================================ */
+/*   Table : TAG						*/
+/* ============================================================ */
+create table TAG
+(	
+	idTag			int		not null,
+	libelleTag		varchar2(50)	not null,
+	idTypeTag		int		null
+	constraint PK_TYPE_TAG primary key (idTag)
+)
+
+/* ============================================================ */
+/*   Table : OEUVRE						*/
+/* ============================================================ */
+create table OEUVRE
+(	
+	idOeuvre		int		not null,
+	titreOeuvre		varchar2(50)	not null,
+	dateCreationOeuvre	date		not null,
+	indicePrixOeuvre	number(8,2) 	not null,
+	imageUrlOeuvre		varchar2(255)	not null,
+	idArtiste		int		not null,
+	constraint PK_OEUVRE primary key (idOeuvre)
+)
+
+/* ============================================================ */
+/*   Table : UTILISATEUR					*/
+/* ============================================================ */
+create table UTILISATEUR
+(	
+	idUtilisateur			int		not null,
+	nomUtilisateur			varchar2(50)	not null,
+	prenomUtilisateur		varchar2(50)	not null,
+	dateNaissanceUtilisateur	date		null,
+	loginUtilisateur		varchar2(50)	not null,
+	passwordUtilisateur		varchar2(50)	not null,
+	isAdmin				Boolean		not null,
+	idPays				int		not null,
+	constraint PK_OEUVRE primary key (idOeuvre)
+)
+
+/* ============================================================ */
+/*   Table : VENTE					*/
+/* ============================================================ */
+create table VENTE
+(	
+	idUtilisateur			int		not null,
+	idOeuvre			int		not null
+	constraint PK_OEUVRE primary key (idUtilisateur, idOeuvre)
+)
+
+/* ============================================================ */
+/*   Table : VENTE					*/
+/* ============================================================ */
+create table VENTE
+(	
+	idUtilisateur			int		not null,
+	idOeuvre			int		not null
+	constraint PK_OEUVRE primary key (idUtilisateur, idOeuvre)
+)
+
+
+/* ============================================================ */
+/*   Table : CONTENU					*/
+/* ============================================================ */
+create table CONTENU
+(	
+	idOeuvre			int		not null
+	idTag				int		not null,
+	constraint PK_OEUVRE primary key (idOeuvre, idTag)
+)
+
+
+
+
+/* ============================================================ */
+/*   DEFINITION DES CONTRAINTES DE CLES ETRANGERES              */
+/* ============================================================ */
+
+alter table OEUVRE
+	add constraint FK_OEUVRE_ARTISTE foreign key (idArtiste)
+		references ARTISTE (idArtiste)
+/
+
+alter table UTILISATEUR
+	add constraint FK_UTILSATEUR_PAYS foreign key (idPays)
+		references PAYS (idPays)
+/
+
+alter table TAG
+	add constraint FK_TAG_TYPE_TAG foreign key (idTypeTag)
+		references TYPE_TAG (idTypeTag)
+/
+
+alter table VENTE
+	add constraint FK_VENTE_UTILISATEUR foreign key (idUtilisateur)
+		references UTIISATEUR (idUtilisateur)
+/
+
+alter table VENTE
+	add constraint FK_VENTE_OEUVRE foreign key (idOeuvre)
+		references OEUVRE (idOeuvre)
+/
+
+alter table CONTENU
+	add constraint FK_CONTENU_OEUVRE foreign key (idOeuvre)
+		references OEUVRE (idOeuvre)
+/
+
+alter table CONTENU
+	add constraint FK_CONTENU_TAG foreign key (idTag)
+		references CONTENU (idTag)
+/
+

@@ -8,8 +8,6 @@
  */
 class Oeuvre extends CI_Controller
 {
-    var $baseUrl = "";
-
     public function __construct()
     {
         $baseUrl = 'oeuvre/';

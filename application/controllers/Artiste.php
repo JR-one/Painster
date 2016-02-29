@@ -5,7 +5,7 @@
  * User: Olivier
  * Date: 03/02/2016
  * Time: 14:53
- * //salut
+
  */
 class Artiste extends CI_Controller
 {
